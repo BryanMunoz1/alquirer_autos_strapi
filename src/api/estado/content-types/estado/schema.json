@@ -17,6 +17,12 @@
       "unique": false,
       "minLength": 5,
       "maxLength": 250
+    },
+    "vehiculos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::vehiculo.vehiculo",
+      "mappedBy": "estado"
     }
   }
 }

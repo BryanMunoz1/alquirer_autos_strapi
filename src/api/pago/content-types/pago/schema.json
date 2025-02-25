@@ -17,6 +17,18 @@
     "importe": {
       "type": "decimal",
       "required": true
+    },
+    "alquiler": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::alquiler.alquiler",
+      "inversedBy": "pagos"
+    },
+    "metodo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::metodo.metodo",
+      "inversedBy": "pagos"
     }
   }
 }

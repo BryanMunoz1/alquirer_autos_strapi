@@ -4,7 +4,8 @@
   "info": {
     "singularName": "vehiculo",
     "pluralName": "vehiculos",
-    "displayName": "Vehiculo"
+    "displayName": "Vehiculo",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,6 +16,30 @@
       "required": true,
       "unique": true,
       "minLength": 6
+    },
+    "marca": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::marca.marca",
+      "inversedBy": "vehiculos"
+    },
+    "tipo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tipo.tipo",
+      "inversedBy": "vehiculos"
+    },
+    "estado": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::estado.estado",
+      "inversedBy": "vehiculos"
+    },
+    "alquilers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::alquiler.alquiler",
+      "mappedBy": "vehiculo"
     }
   }
 }

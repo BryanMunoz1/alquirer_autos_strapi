@@ -372,6 +372,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiAlquilerAlquiler extends Struct.CollectionTypeSchema {
   collectionName: 'alquilers';
   info: {
+    description: '';
     displayName: 'Alquiler';
     pluralName: 'alquilers';
     singularName: 'alquiler';
@@ -380,10 +381,12 @@ export interface ApiAlquilerAlquiler extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    cliente: Schema.Attribute.Relation<'manyToOne', 'api::cliente.cliente'>;
     costo: Schema.Attribute.Decimal & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    empleado: Schema.Attribute.Relation<'manyToOne', 'api::empleado.empleado'>;
     fecha_entrega: Schema.Attribute.Date & Schema.Attribute.Required;
     fecha_fin: Schema.Attribute.Date & Schema.Attribute.Required;
     fecha_inicio: Schema.Attribute.Date & Schema.Attribute.Required;
@@ -393,10 +396,12 @@ export interface ApiAlquilerAlquiler extends Struct.CollectionTypeSchema {
       'api::alquiler.alquiler'
     > &
       Schema.Attribute.Private;
+    pagos: Schema.Attribute.Relation<'oneToMany', 'api::pago.pago'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    vehiculo: Schema.Attribute.Relation<'manyToOne', 'api::vehiculo.vehiculo'>;
   };
 }
 
@@ -412,6 +417,7 @@ export interface ApiClienteCliente extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    alquilers: Schema.Attribute.Relation<'oneToMany', 'api::alquiler.alquiler'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -447,6 +453,7 @@ export interface ApiEmpleadoEmpleado extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    alquilers: Schema.Attribute.Relation<'oneToMany', 'api::alquiler.alquiler'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -501,12 +508,14 @@ export interface ApiEstadoEstado extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    vehiculos: Schema.Attribute.Relation<'oneToMany', 'api::vehiculo.vehiculo'>;
   };
 }
 
 export interface ApiMarcaMarca extends Struct.CollectionTypeSchema {
   collectionName: 'marcas';
   info: {
+    description: '';
     displayName: 'marca';
     pluralName: 'marcas';
     singularName: 'marca';
@@ -530,12 +539,14 @@ export interface ApiMarcaMarca extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    vehiculos: Schema.Attribute.Relation<'oneToMany', 'api::vehiculo.vehiculo'>;
   };
 }
 
 export interface ApiMetodoMetodo extends Struct.CollectionTypeSchema {
   collectionName: 'metodos';
   info: {
+    description: '';
     displayName: 'metodo';
     pluralName: 'metodos';
     singularName: 'metodo';
@@ -558,6 +569,7 @@ export interface ApiMetodoMetodo extends Struct.CollectionTypeSchema {
       'api::metodo.metodo'
     > &
       Schema.Attribute.Private;
+    pagos: Schema.Attribute.Relation<'oneToMany', 'api::pago.pago'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -576,6 +588,7 @@ export interface ApiPagoPago extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    alquiler: Schema.Attribute.Relation<'manyToOne', 'api::alquiler.alquiler'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -584,6 +597,7 @@ export interface ApiPagoPago extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::pago.pago'> &
       Schema.Attribute.Private;
+    metodo: Schema.Attribute.Relation<'manyToOne', 'api::metodo.metodo'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -632,12 +646,14 @@ export interface ApiTipoTipo extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    vehiculos: Schema.Attribute.Relation<'oneToMany', 'api::vehiculo.vehiculo'>;
   };
 }
 
 export interface ApiVehiculoVehiculo extends Struct.CollectionTypeSchema {
   collectionName: 'vehiculos';
   info: {
+    description: '';
     displayName: 'Vehiculo';
     pluralName: 'vehiculos';
     singularName: 'vehiculo';
@@ -646,15 +662,18 @@ export interface ApiVehiculoVehiculo extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    alquilers: Schema.Attribute.Relation<'oneToMany', 'api::alquiler.alquiler'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    estado: Schema.Attribute.Relation<'manyToOne', 'api::estado.estado'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::vehiculo.vehiculo'
     > &
       Schema.Attribute.Private;
+    marca: Schema.Attribute.Relation<'manyToOne', 'api::marca.marca'>;
     placa: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
@@ -662,6 +681,7 @@ export interface ApiVehiculoVehiculo extends Struct.CollectionTypeSchema {
         minLength: 6;
       }>;
     publishedAt: Schema.Attribute.DateTime;
+    tipo: Schema.Attribute.Relation<'manyToOne', 'api::tipo.tipo'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

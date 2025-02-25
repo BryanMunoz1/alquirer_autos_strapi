@@ -4,7 +4,8 @@
   "info": {
     "singularName": "alquiler",
     "pluralName": "alquilers",
-    "displayName": "Alquiler"
+    "displayName": "Alquiler",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,30 @@
     "costo": {
       "type": "decimal",
       "required": true
+    },
+    "cliente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "alquilers"
+    },
+    "empleado": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::empleado.empleado",
+      "inversedBy": "alquilers"
+    },
+    "vehiculo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::vehiculo.vehiculo",
+      "inversedBy": "alquilers"
+    },
+    "pagos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pago.pago",
+      "mappedBy": "alquiler"
     }
   }
 }

@@ -25,6 +25,12 @@
       "type": "integer",
       "required": true,
       "unique": true
+    },
+    "alquilers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::alquiler.alquiler",
+      "mappedBy": "cliente"
     }
   }
 }
